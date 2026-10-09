@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Neo">
+<title>Neo</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-phase="idle">
+
+<header class="top">
+  <button class="iconbtn" id="btnMenu" aria-label="Mostrar barra lateral" aria-expanded="false" aria-controls="sheet">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3.5"/><path d="M9.5 5v14"/></svg>
+  </button>
+  <b class="name">Neo</b>
+  <div class="phase" role="status" aria-live="polite"><i class="dot" id="phaseDot"></i><span id="phaseText">Pronto</span></div>
+</header>
+
+<main class="stage" id="stage">
+  <div class="orb" id="orb">
+    <canvas id="orbGlow" aria-hidden="true"></canvas>
+    <canvas id="orbCanvas" aria-hidden="true"></canvas>
+  </div>
+  <p class="caption" id="caption" aria-live="polite"></p>
+</main>
+
+<footer class="dock">
+  <div class="progress" id="progress" hidden><i id="progressFill"></i></div>
+  <p class="hint" id="hint" role="status" aria-live="polite"></p>
+  <div class="askbar" id="askbar">
+    <input id="ask" autocomplete="off" autocorrect="on" spellcheck="true" enterkeyhint="send" placeholder="Fale com o Neo" aria-label="Mensagem para o Neo">
+    <button id="btnSend" class="send" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 18.5V6M6.5 11.5 12 6l5.5 5.5"/></svg>
+    </button>
+    <button id="btnMic" class="mic" aria-label="Falar" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3.5" width="6" height="10.5" rx="3"/><path d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3"/></svg>
+    </button>
+    <button id="btnStop" class="stop" aria-label="Parar" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2.5" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="sheet" id="sheet" aria-label="Barra lateral do Neo" hidden>
+  <header class="sheethead">
+    <nav class="tabs" role="tablist" aria-label="Seções">
+      <button role="tab" data-tab="convo" class="on">Conversa</button>
+      <button role="tab" data-tab="memory">Memória</button>
+      <button role="tab" data-tab="settings">Ajustes</button>
+    </nav>
+    <button class="iconbtn" id="btnClose" aria-label="Fechar barra lateral">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>
+    </button>
+  </header>
+
+  <section class="tab on" data-pane="convo">
+    <div class="transcript" id="transcript"></div>
+    <p class="empty" id="convoEmpty">Quando vocês conversarem, a conversa aparece aqui.</p>
+    <button class="tool danger" id="btnClearConvo" hidden>Apagar conversa</button>
+  </section>
+
+  <section class="tab" data-pane="memory">
+    <input id="memSearch" type="search" placeholder="Buscar" aria-label="Buscar nas memórias">
+    <p class="count" id="memCount"></p>
+    <div class="notes" id="notes"></div>
+    <p class="empty" id="memEmpty">Nada guardado ainda. Diga "anota que…" ou importe o seu dossiê em Ajustes.</p>
+  </section>
+
+  <section class="tab" data-pane="settings">
+    <h3>Cérebro</h3>
+    <div class="seg" role="radiogroup" aria-label="Tamanho do cérebro" id="tierSeg">
+      <button data-tier="leve" role="radio">Leve</button>
+      <button data-tier="equilibrado" role="radio">Equilibrado</button>
+      <button data-tier="melhor" role="radio">Melhor</button>
+    </div>
+    <p class="note" id="brainInfo">—</p>
+
+    <h3>Voz</h3>
+    <label class="pick">Voz do Neo <select id="voicePick" aria-label="Voz do Neo"></select></label>
+    <label class="row">Ler as respostas em voz alta <input type="checkbox" id="speakOn" checked></label>
+    <p class="note">Para uma voz mais natural: Ajustes do iPhone → Acessibilidade → Conteúdo Falado → Vozes → Português (Brasil) → baixe uma versão "Melhorada" ou "Premium".</p>
+
+    <h3>Sobre você</h3>
+    <p class="note">Cole aqui o que o Neo deve saber sempre: nome, cidade, estudos, preferências. Fica só neste celular.</p>
+    <textarea id="aboutMe" rows="6" placeholder="Ex.: Me chamo…, tenho… anos, moro em…, estudo…, gosto de…"></textarea>
+    <button class="tool" id="btnSaveAbout">Salvar</button>
+
+    <h3>Armazenamento</h3>
+    <p class="note" id="storageInfo">—</p>
+    <button class="tool danger" id="btnForget">Apagar o cérebro baixado</button>
+  </section>
+</aside>
+
+<script src="orb.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
